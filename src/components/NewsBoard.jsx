@@ -10,26 +10,37 @@ export default function NewsBoard({ category }) {
     fetch(`/api/news?category=${category}`)
       .then(res => res.json())
       .then(data => {
-        setArticles(data.articles);
+        // Fallback to empty array if data.articles is undefined
+        setArticles(data.articles || []); 
         setLoading(false);
       })
-      .catch(() => setLoading(false));
+      .catch((error) => {
+        console.error("Error fetching news:", error);
+        setLoading(false);
+      });
   }, [category]);
 
   return (
     <div className="news-board">
       <h2 className="board-title">Latest <span className="highlight">{category}</span> News</h2>
-      {loading ? <p style={{textAlign:'center'}}>Loading...</p> : (
+      
+      {loading ? (
+        <div className="loading-spinner"></div>
+      ) : (
         <div className="articles-grid">
-          {articles.map((news, index) => (
-            <NewsItem 
-              key={index} 
-              title={news.title} 
-              description={news.description} 
-              src={news.urlToImage} 
-              url={news.url} 
-            />
-          ))}
+          {articles.length > 0 ? (
+            articles.map((news, index) => (
+              <NewsItem 
+                key={index} 
+                title={news.title} 
+                description={news.description} 
+                src={news.urlToImage} 
+                url={news.url} 
+              />
+            ))
+          ) : (
+            <p className="status-text">No news found for this category at the moment.</p>
+          )}
         </div>
       )}
     </div>
