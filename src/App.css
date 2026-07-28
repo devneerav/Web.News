@@ -1,143 +1,174 @@
-/* General Setup */
+/* =========================================
+   1. GLOBAL RESET & BASE STYLES
+   ========================================= */
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background-color: #f4f6f8;
-  color: #333;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: #f7fafc; /* Soft, modern light gray background */
+  color: #1a202c;
+  line-height: 1.5;
 }
 
-/* Navbar */
+/* =========================================
+   2. NAVBAR STYLING (Assuming you have one)
+   ========================================= */
 .navbar {
+  background-color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #212529;
-  padding: 15px 30px;
-  color: white;
 }
 
-.nav-brand {
+.navbar-brand {
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 800;
+  color: #2b6cb0;
+  text-decoration: none;
 }
 
-.nav-links {
-  display: flex;
-  gap: 10px;
-}
-
-.nav-links button {
-  background: none;
-  border: none;
-  color: #adb5bd;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.nav-links button:hover {
-  color: white;
-}
-
-/* News Board */
+/* =========================================
+   3. NEWS BOARD (Main Container & Grid)
+   ========================================= */
 .news-board {
-  max-width: 1200px;
+  padding: 2rem;
+  max-width: 1200px; /* Keeps it from stretching too wide on big screens */
   margin: 0 auto;
-  padding: 30px 15px;
 }
 
 .board-title {
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
-  text-transform: capitalize;
+  font-size: 2.5rem;
+  margin-bottom: 2.5rem;
+  color: #2d3748;
+  font-weight: 800;
 }
 
 .highlight {
-  color: #dc3545;
+  color: #3182ce;
+  text-transform: capitalize;
 }
 
-.status-text {
-  text-align: center;
-  font-size: 1.2rem;
+/* The Magic Grid: Auto-adjusts columns based on screen size */
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
 }
 
-.error {
-  color: red;
-}
-
-/* Grid Layout for Articles */
-.articles-container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-}
-
-/* News Card */
+/* =========================================
+   4. NEWS ITEM (The Premium Cards)
+   ========================================= */
 .news-card {
-  background: white;
-  border-radius: 8px;
+  background: #ffffff;
+  border-radius: 12px;
   overflow: hidden;
-  width: 320px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  transition: transform 0.3s;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e2e8f0;
+  height: 100%; /* Ensures all cards in a row stretch evenly */
 }
 
+/* Smooth lift and shadow effect on hover */
 .news-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
 }
 
-.news-image {
+.card-img-top {
   width: 100%;
   height: 200px;
-  object-fit: cover;
+  object-fit: cover; /* Crops images uniformly without stretching */
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #edf2f7; /* Gray fallback before image loads */
 }
 
-.news-content {
-  padding: 20px;
+.card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1; 
 }
 
-.news-title {
-  font-size: 1.1rem;
-  margin-bottom: 10px;
-  line-height: 1.4;
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1a202c;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
 }
 
-.news-description {
-  font-size: 0.9rem;
-  color: #6c757d;
-  margin-bottom: 20px;
+.card-text {
+  color: #4a5568;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+  
+  /* Truncates the text to exactly 3 lines with an ellipsis (...) */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-.read-btn {
-  display: inline-block;
-  background-color: #0d6efd;
+/* =========================================
+   5. BUTTONS & LINKS
+   ========================================= */
+.btn {
+  margin-top: auto; /* Forces the button to the bottom of the card */
+  background-color: #3182ce;
   color: white;
-  padding: 8px 16px;
   text-decoration: none;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  transition: background-color 0.3s;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+  display: block;
 }
 
-.read-btn:hover {
-  background-color: #0b5ed7;
+.btn:hover {
+  background-color: #2b6cb0;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: column;
-    gap: 15px;
-  }
-  .nav-links {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
+/* =========================================
+   6. LOADING STATES & ERRORS
+   ========================================= */
+.status-text {
+  text-align: center;
+  font-size: 1.25rem;
+  color: #4a5568;
+  margin-top: 3rem;
+}
+
+.status-text.error {
+  color: #e53e3e;
+  font-weight: 600;
+}
+
+/* Optional Custom CSS Spinner */
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid #edf2f7;
+  border-top: 4px solid #3182ce;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 3rem auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
