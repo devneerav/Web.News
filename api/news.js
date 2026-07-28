@@ -1,27 +1,41 @@
 // api/news.js
 export default async function handler(req, res) {
-  const { category } = req.query;
-  const apiKey = process.env.VITE_API_KEY;
+  const { category = 'general' } = req.query;
+  const apiKey = process.env.VITE_API_KEY; 
 
-  // 1. List of valid standard categories
-  const standardCategories = ['general', 'business', 'technology', 'health', 'sports', 'entertainment', 'science'];
-  
-  let url;
-
-  // 2. Decide if we use 'category' parameter or 'q' (search) parameter
-  if (standardCategories.includes(category.toLowerCase())) {
-    // Agar standard category hai toh category parameter use karo
-    url = `https://newsapi.org/v2/top-headlines?country=in&category=${category}&apiKey=${apiKey}`;
-  } else {
-    // Agar "Bollywood", "Stock Market" jaisa custom term hai toh 'q' (query) parameter use karo
-    url = `https://newsapi.org/v2/everything?q=${encodeURIComponent(category)}&language=en&apiKey=${apiKey}`;
-  }
+  // 1. Build the APITube URL
+  // If the category is 'general', we fetch the latest news. 
+  // Otherwise, we search for the specific category keyword in the article titles.
+  const searchQuery = category === 'general' ? '' : `?title=${category}`;
+  const url = `https://api.apitube.io/v1/news/everything${searchQuery}`;
 
   try {
-    const response = await fetch(url);
+    // 2. APITube requires the key in the headers
+    const response = await fetch(url, {
+      headers: {
+        'X-API-Key': apiKey 
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error(`APITube returned ${response.status}`);
+    }
+
     const data = await response.json();
-    res.status(200).json(data);
+
+    // 3. Transform APITube's format into the NewsAPI format your React app expects
+    // We map 'results', 'body', and 'href' into 'articles', 'description', and 'url'
+    const transformedArticles = (data.results || []).map(article => ({
+      title: article.title,
+      description: article.body, 
+      url: article.href,         
+      urlToImage: article.image || article.image_url || null // Frontend fallback handles nulls
+    }));
+
+    // 4. Send back the exact shape your frontend is waiting for
+    res.status(200).json({ articles: transformedArticles });
   } catch (error) {
-    res.status(500).json({ error: "Failed to fetch" });
+    console.error(error);
+    res.status(500).json({ error: 'Failed to fetch news from APITube' });
   }
 }
