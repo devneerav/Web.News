@@ -194,7 +194,7 @@ body {
 }
 
 /* =========================================
-   7. HAMBURGER MENU & MOBILE LAYOUT
+   7. HAMBURGER MENU & TADAKTA PHADAKTA MOBILE UI
    ========================================= */
 
 /* Burger Menu Design (Hidden on Desktop) */
@@ -202,69 +202,135 @@ body {
   display: none;
   flex-direction: column;
   cursor: pointer;
-  gap: 5px;
+  gap: 6px;
 }
 
 .bar {
-  width: 25px;
+  width: 28px;
   height: 3px;
   background-color: #1a202c;
   border-radius: 3px;
   transition: all 0.3s ease;
 }
 
-/* MOBILE RESPONSIVE MEDIA QUERY */
+/* 🔥 MOBILE EXCLUSIVE UI (Native App Look) 🔥 */
 @media (max-width: 768px) {
-  /* Show Burger Icon */
-  .hamburger {
-    display: flex;
+  
+  /* Show Burger Icon & Format Mobile Navbar */
+  .hamburger { display: flex; }
+  
+  .navbar {
+    padding: 1rem;
+    position: fixed; /* Keeps navbar on top while scrolling */
+    width: 100%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px); /* Apple style glass effect */
   }
 
-  /* Transform Nav Links into a Dropdown Menu */
   .nav-links {
-    display: none; /* Hide default horizontal nav */
+    display: none; 
     flex-direction: column;
     width: 100%;
     background-color: #ffffff;
-    position: absolute;
-    top: 65px; /* Pushes menu right below navbar */
+    position: fixed;
+    top: 60px; 
     left: 0;
-    padding: 1rem 2rem;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    padding: 1rem;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
     z-index: 99;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
   }
 
-  /* Show Nav Links when Burger is Clicked */
-  .nav-links.open {
-    display: flex;
+  .nav-links.open { display: flex; animation: slideDown 0.3s ease-out; }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Full width buttons for mobile menu */
   .nav-btn {
     width: 100%;
-    text-align: left;
-    padding: 0.8rem;
-    border: none;
-    border-bottom: 1px solid #edf2f7;
-    border-radius: 0;
-  }
-  
-  .nav-btn:last-child {
-    border-bottom: none;
-  }
-
-  /* Proper spacing and typography for Mobile Screens */
-  .news-board {
+    text-align: center;
     padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border: none;
+    background: #f7fafc;
+    border-radius: 12px;
+    margin-bottom: 0.5rem;
   }
   
-  .board-title {
-    font-size: 1.8rem;
-    margin-bottom: 1.5rem;
+  .nav-btn.highlight-btn { background: #fff5f5; color: #e53e3e; }
+
+  /* Feed Styling */
+  .news-board { padding: 80px 15px 20px 15px; } /* Top padding accounts for fixed navbar */
+  .board-title { font-size: 1.8rem; text-align: left; margin-bottom: 1rem; }
+
+  /* 🚀 TADAKTA PHADAKTA APP CARDS */
+  .articles-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .articles-grid {
-    grid-template-columns: 1fr; /* 1 Card per row on mobile */
-    gap: 1.5rem;
+  .news-card {
+    position: relative;
+    height: 420px; /* Big, uniform cards for mobile */
+    border-radius: 24px; /* Heavy rounded corners */
+    border: none;
+    box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+  }
+
+  .news-card:hover { transform: none; box-shadow: 0 15px 25px rgba(0,0,0,0.15); } /* Disable hover on mobile */
+
+  .card-img-top {
+    position: absolute;
+    top: 0; left: 0;
+    height: 100%; 
+    width: 100%;
+    border-radius: 24px;
+    object-fit: cover;
+    z-index: 1;
+  }
+
+  .card-body {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    z-index: 2;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.7) 50%, transparent 100%);
+    border-bottom-left-radius: 24px;
+    border-bottom-right-radius: 24px;
+    padding: 1.5rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+
+  /* White text on dark gradient */
+  .card-title {
+    color: #ffffff;
+    font-size: 1.35rem;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-text {
+    color: #e2e8f0; /* Light gray */
+    font-size: 0.9rem;
+    -webkit-line-clamp: 2; /* Show only 2 lines on mobile to save space */
+  }
+
+  /* Modern Pill Button */
+  .btn {
+    background-color: #e53e3e;
+    color: white;
+    border-radius: 50px; /* Pill shape */
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    padding: 0.8rem;
+    margin-top: 1rem;
+    box-shadow: 0 4px 10px rgba(229, 62, 62, 0.4);
   }
 }
