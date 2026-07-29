@@ -1,20 +1,24 @@
 import React from 'react';
 
 export default function NewsItem({ title, description, src, url }) {
-  // Yeh image tab dikhegi jab original image fail ho jayegi
-  const fallbackImg = "https://placehold.co/600x400/edf2f7/1a202c?text=News+Unavailable";
+  // Guaranteed working professional fallback image
+  const fallbackImg = "https://images.unsplash.com/photo-1504711434969-e33886168f5c?q=80&w=600&auto=format&fit=crop";
   
+  // 🚀 VERCEL SECURE FIX: Convert http:// to https://
+  let secureSrc = src;
+  if (secureSrc && secureSrc.startsWith("http://")) {
+    secureSrc = secureSrc.replace("http://", "https://");
+  }
+
   return (
     <div className="news-card">
       <img 
-        src={src || fallbackImg} 
+        src={secureSrc || fallbackImg} 
         className="card-img-top" 
         alt="news thumbnail" 
         onError={(e) => {
-          // 🔥 The Magic Trick: Agar image tooti hui hui ya block hui, 
-          // toh turant fallback image set kar do bina UI bigade
-          e.target.onerror = null; // Prevents infinite loop if fallback also fails
-          e.target.src = fallbackImg;
+          e.target.onerror = null; 
+          e.target.src = fallbackImg; // Load fallback if original link fails
         }}
       />
       <div className="card-body">

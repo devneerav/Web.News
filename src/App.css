@@ -192,3 +192,79 @@ body {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+/* =========================================
+   7. HAMBURGER MENU & MOBILE LAYOUT
+   ========================================= */
+
+/* Burger Menu Design (Hidden on Desktop) */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+}
+
+.bar {
+  width: 25px;
+  height: 3px;
+  background-color: #1a202c;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+/* MOBILE RESPONSIVE MEDIA QUERY */
+@media (max-width: 768px) {
+  /* Show Burger Icon */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Transform Nav Links into a Dropdown Menu */
+  .nav-links {
+    display: none; /* Hide default horizontal nav */
+    flex-direction: column;
+    width: 100%;
+    background-color: #ffffff;
+    position: absolute;
+    top: 65px; /* Pushes menu right below navbar */
+    left: 0;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 99;
+  }
+
+  /* Show Nav Links when Burger is Clicked */
+  .nav-links.open {
+    display: flex;
+  }
+
+  /* Full width buttons for mobile menu */
+  .nav-btn {
+    width: 100%;
+    text-align: left;
+    padding: 0.8rem;
+    border: none;
+    border-bottom: 1px solid #edf2f7;
+    border-radius: 0;
+  }
+  
+  .nav-btn:last-child {
+    border-bottom: none;
+  }
+
+  /* Proper spacing and typography for Mobile Screens */
+  .news-board {
+    padding: 1rem;
+  }
+  
+  .board-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .articles-grid {
+    grid-template-columns: 1fr; /* 1 Card per row on mobile */
+    gap: 1.5rem;
+  }
+}
